@@ -1,0 +1,76 @@
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    setup_ci if ENV['CI']
+  end
+
+  desc "Create app in App Store Connect and Developer Portal"
+  lane :create_app do
+    produce(
+      app_identifier: "com.grafton.languagetransfer.spanish",
+      app_name: "Language Transfer - Spanish",
+      language: "English",
+      sku: "com.grafton.languagetransfer.spanish",
+      team_id: "B5X96QDRF4",
+      itc_team_id: "B5X96QDRF4",
+      api_key_path: "$ASC_KEY_PATH"
+    )
+  end
+
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    # Increment build number
+    increment_build_number(xcodeproj: "LanguageTransfer.xcodeproj")
+    
+    # Build the app
+    build_app(
+      scheme: "LanguageTransfer",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.grafton.languagetransfer.spanish" => "match AppStore com.grafton.languagetransfer.spanish"
+        }
+      }
+    )
+    
+    # Upload to TestFlight
+    upload_to_testflight(
+      api_key_path: "$ASC_KEY_PATH",
+      skip_waiting_for_build_processing: true
+    )
+    
+    # Tag the build
+    build_number = get_build_number(xcodeproj: "LanguageTransfer.xcodeproj")
+    version_number = get_version_number(xcodeproj: "LanguageTransfer.xcodeproj")
+    add_git_tag(tag: "v#{version_number}-build#{build_number}")
+    push_git_tags
+    
+    # Commit version bump
+    git_commit(
+      path: ["LanguageTransfer.xcodeproj/project.pbxproj"],
+      message: "[ci skip] Bump build to #{build_number}"
+    )
+    push_to_git_remote
+  end
+
+  desc "Bump build number and commit"
+  lane :bump do
+    increment_build_number(xcodeproj: "LanguageTransfer.xcodeproj")
+    build_number = get_build_number(xcodeproj: "LanguageTransfer.xcodeproj")
+    
+    commit_version_bump(
+      xcodeproj: "LanguageTransfer.xcodeproj",
+      message: "[ci skip] Bump build to #{build_number}"
+    )
+    push_to_git_remote
+  end
+  
+  desc "Upload dSYMs to Firebase Crashlytics"
+  lane :upload_symbols do
+    upload_symbols_to_crashlytics(
+      gsp_path: "./LanguageTransfer/GoogleService-Info.plist",
+      binary_path: "./Pods/FirebaseCrashlytics/upload-symbols"
+    )
+  end
+end
