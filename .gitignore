@@ -53,3 +53,5 @@ Carthage/Build/
 .LSOverride
 Icon
 ._*
+.bundle/
+vendor/bundle
