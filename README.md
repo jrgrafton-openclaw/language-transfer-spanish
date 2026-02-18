@@ -1,48 +1,114 @@
 # Language Transfer - Spanish
 
-A modern SwiftUI rebuild of the Language Transfer Spanish learning app.
+SwiftUI iOS app for language learning via Language Transfer methodology.
 
-## Overview
+## Project Status
 
-This is a complete rebuild of the [Language Transfer app](https://github.com/language-transfer/lt-app) specifically for Spanish, using:
-- **SwiftUI** for modern, declarative UI
-- **Automatic signing** for simplified deployment
-- **TestFlight** for beta distribution
-- **Firebase** for analytics and crash reporting
-- **Google Gemini** for optional image generation ("Nano Banana" feature)
+✅ **iOS Build Automation Configured**
+- Automatic signing via App Store Connect API
+- TestFlight deployment pipeline ready
+- Firebase integration configured
 
-## Development
+## Quick Start
 
-### Requirements
-- Xcode 15.0+
-- iOS 17.0+ target
-- macOS 14.0+ for development
-
-### Setup
+### Build Archive Only
 ```bash
-# Install dependencies
-bundle install
-
-# Configure signing (one-time)
-# Open Xcode, sign in with Apple ID, select team
-
-# Build for TestFlight
-bundle exec fastlane beta
+./scripts/ios_build.sh
 ```
 
-### Architecture
-- **SwiftUI** for UI layer
-- **Swift Concurrency** (async/await) for audio playback
-- **Firebase** for crash reporting and analytics
-- **App Store Connect API** for automated deployment
+### Build & Deploy to TestFlight
+```bash
+./scripts/ios_deploy.sh
+```
 
-## Automated Deployment
+## Requirements
 
-This project uses Fastlane for automated builds:
-- Version: Semantic (1.0.0, 1.1.0, etc.)
-- Build numbers: Auto-incremented on each TestFlight upload
-- Distribution: TestFlight via App Store Connect API
+- Xcode 26.2+
+- macOS running in Aqua/login session (not Background launchd)
+- Signing certificates in `~/Library/Keychains/build.keychain-db`
+- App Store Connect API key in `~/.openclaw/secrets/app-store-connect/`
 
-## License
+## Development Workflow
 
-TBD (following Language Transfer's open-source philosophy)
+1. Make changes on feature branch
+2. Open PR
+3. Review & merge to `main`
+4. `main` branch triggers automatic TestFlight deployment
+
+## Project Structure
+
+```
+LanguageTransfer/
+├── LanguageTransferApp.swift   # App entry point
+├── ContentView.swift             # Main UI
+├── Assets.xcassets/              # App icons & assets
+├── Info.plist                    # App configuration
+└── GoogleService-Info.plist      # Firebase config
+
+scripts/
+├── ios_build.sh     # Archive only (dev/testing)
+└── ios_deploy.sh    # Full pipeline (archive + export + TestFlight)
+
+fastlane/
+├── Fastfile         # Fastlane configuration (if needed later)
+└── Appfile          # App Store Connect settings
+```
+
+## Configuration
+
+### Team & Bundle ID
+- **Team ID:** B5X96QDRF4
+- **Bundle ID:** com.grafton.languagetransfer.spanish
+- **App Store Connect:** Language Transfer - Spanish
+
+### Firebase
+- **Project:** onyx-pad-487706-a5
+- **iOS App ID:** 1:772897757520:ios:b09e7a9539212f33267455
+
+### Signing
+- **Keychain:** `~/Library/Keychains/build.keychain-db` (passwordless)
+- **Certificates:** Apple Development + Apple Distribution (auto-managed)
+- **Provisioning:** Automatic via API key
+
+## Troubleshooting
+
+### Build Fails with "GatherProvisioningInputs" Crash
+**Cause:** Running in Background launchd session instead of login session
+
+**Fix:** Ensure OpenClaw gateway runs as user in Aqua/login session:
+```bash
+launchctl print gui/$(id -u) | head -n 3
+# Should show: type = login
+```
+
+### Certificate Not Found
+**Cause:** Keychain not in search path
+
+**Fix:** Run keychain setup manually:
+```bash
+security unlock-keychain -p "" ~/Library/Keychains/build.keychain-db
+security default-keychain -d user -s ~/Library/Keychains/build.keychain-db
+security list-keychains -d user -s ~/Library/Keychains/build.keychain-db /Library/Keychains/System.keychain
+```
+
+## Version Management
+
+- **Marketing Version:** 1.0.0 (set in project settings)
+- **Build Number:** Auto-incremented by fastlane (future)
+- **TestFlight:** New builds appear within 5-10 minutes of upload
+
+## Firebase Analytics & Crashlytics
+
+Currently configured but not yet integrated in code. To enable:
+
+1. Uncomment Firebase init in `LanguageTransferApp.swift`
+2. Add Firebase SDK via Swift Package Manager
+3. Configure Crashlytics dSYM upload in build script
+
+## Future Enhancements
+
+- [ ] Fastlane lane for version bumping
+- [ ] Automatic screenshots for App Store
+- [ ] Localization support
+- [ ] CI/CD integration (GitHub Actions)
+- [ ] Google Gemini image generation ("Nano Banana" feature)

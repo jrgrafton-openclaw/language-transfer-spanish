@@ -55,3 +55,12 @@ Icon
 ._*
 .bundle/
 vendor/bundle
+
+# Build artifacts
+build/
+*.xcarchive
+*.ipa
+*.log
+
+# Temporary documentation
+BUILD_*.md

@@ -1,0 +1,36 @@
+name: LanguageTransfer
+options:
+  bundleIdPrefix: com.grafton
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "26.2"
+  developmentLanguage: en
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: B5X96QDRF4
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  LanguageTransfer:
+    type: application
+    platform: iOS
+    sources:
+      - path: LanguageTransfer
+        excludes:
+          - "GoogleService-Info.plist"
+    resources:
+      - path: LanguageTransfer/GoogleService-Info.plist
+    info:
+      path: LanguageTransfer/Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.grafton.languagetransfer.spanish
+        INFOPLIST_FILE: LanguageTransfer/Info.plist
+        GENERATE_INFOPLIST_FILE: false
+        CODE_SIGN_IDENTITY: "Apple Development"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: B5X96QDRF4
