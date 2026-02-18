@@ -137,5 +137,17 @@ xcrun altool \
 echo ""
 echo "=== ✅ TestFlight Upload Complete ==="
 echo "Version: $VERSION ($BUILD)"
-echo "Check App Store Connect for processing status"
-echo "Build should appear in TestFlight within 5-10 minutes"
+echo ""
+
+# ==============================================================================
+# STEP 5: CONFIGURE INTERNAL TESTING
+# ==============================================================================
+
+echo "=== Configuring Internal Testing ==="
+node ./scripts/setup_testflight_internal.mjs
+
+echo ""
+echo "=== 🎉 Deployment Complete ==="
+echo "Version: $VERSION ($BUILD)"
+echo "Build will appear in TestFlight app within 1-2 minutes"
+echo "Check email for TestFlight invitation"
