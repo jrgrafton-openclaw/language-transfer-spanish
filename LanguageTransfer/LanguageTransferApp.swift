@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
-// import FirebaseCore  // Uncomment after adding Firebase
+import FirebaseCore
+import FirebaseCrashlytics
 
 @main
 struct LanguageTransferApp: App {
     init() {
         // Configure Firebase
-        // FirebaseApp.configure()  // Uncomment after adding Firebase
+        FirebaseApp.configure()
+        
+        // Enable Crashlytics collection
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
     }
     
     var body: some Scene {
