@@ -21,6 +21,15 @@ SwiftUI iOS app for language learning via Language Transfer methodology.
 ./scripts/ios_deploy.sh
 ```
 
+This automatically:
+1. Archives the app
+2. Exports for App Store distribution
+3. Uploads to TestFlight
+4. **Configures internal testing** (NEW!)
+5. Adds build to internal testers
+
+Build appears in TestFlight app within 1-2 minutes.
+
 ## Requirements
 
 - Xcode 26.2+
