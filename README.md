@@ -114,21 +114,7 @@ Currently configured but not yet integrated in code. To enable:
 2. Add Firebase SDK via Swift Package Manager
 3. Configure Crashlytics dSYM upload in build script
 
-## Security Notes
-
-**⚠️ Important:** `GoogleService-Info.plist` contains API keys and is **NOT committed** to version control.
-
-- File is in `.gitignore`
-- Exists locally for builds only
-- Download fresh copy from [Firebase Console](https://console.firebase.google.com) if needed
-- **Never commit this file to any repository**
-
-If you need to set up Firebase locally:
-```bash
-# Download via Firebase CLI (requires authentication)
-firebase apps:sdkconfig ios YOUR_APP_ID --project onyx-pad-487706-a5 \
-  -o LanguageTransfer/GoogleService-Info.plist
-```
+**Note:** `GoogleService-Info.plist` is excluded from version control (.gitignore) as it contains Firebase configuration. Download from Firebase Console if needed.
 
 ## Future Enhancements
 
