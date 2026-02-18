@@ -6,6 +6,11 @@ options:
   xcodeVersion: "26.2"
   developmentLanguage: en
 
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk
+    from: 11.0.0
+
 settings:
   base:
     DEVELOPMENT_TEAM: B5X96QDRF4
@@ -26,6 +31,11 @@ targets:
       - path: LanguageTransfer/GoogleService-Info.plist
     info:
       path: LanguageTransfer/Info.plist
+    dependencies:
+      - package: Firebase
+        products:
+          - FirebaseAnalytics
+          - FirebaseCrashlytics
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.grafton.languagetransfer.spanish
