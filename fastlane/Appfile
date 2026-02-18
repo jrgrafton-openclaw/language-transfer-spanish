@@ -1,4 +1,5 @@
 app_identifier("com.grafton.languagetransfer.spanish")
+apple_id("jrgrafton@gmail.com")
 team_id("B5X96QDRF4")
 itc_team_id("B5X96QDRF4")
 
