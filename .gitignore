@@ -65,6 +65,3 @@ build/
 # Temporary documentation
 BUILD_*.md
 
-# Firebase config (contains API keys)
-**/GoogleService-Info.plist
-GoogleService-Info.plist
