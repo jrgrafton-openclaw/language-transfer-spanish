@@ -108,13 +108,13 @@ security list-keychains -d user -s ~/Library/Keychains/build.keychain-db /Librar
 
 ## Firebase Analytics & Crashlytics
 
-Currently configured but not yet integrated in code. To enable:
+✅ **Fully integrated and active**
 
-1. Uncomment Firebase init in `LanguageTransferApp.swift`
-2. Add Firebase SDK via Swift Package Manager
-3. Configure Crashlytics dSYM upload in build script
+- Analytics automatically tracks app usage, screens, and events
+- Crashlytics captures crashes and provides stack traces
+- dSYMs uploaded automatically with each TestFlight build
 
-**Note:** `GoogleService-Info.plist` is excluded from version control (.gitignore) as it contains Firebase configuration. Download from Firebase Console if needed.
+View data in [Firebase Console](https://console.firebase.google.com/project/onyx-pad-487706-a5)
 
 ## Future Enhancements
 
