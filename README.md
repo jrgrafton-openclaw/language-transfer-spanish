@@ -71,8 +71,8 @@ fastlane/
 - **App Store Connect:** Language Transfer - Spanish
 
 ### Firebase
-- **Project:** onyx-pad-487706-a5
-- **iOS App ID:** 1:772897757520:ios:b09e7a9539212f33267455
+- **Project:** lobsterproject
+- **iOS App ID:** 1:1045899039244:ios:41f82b59d7d2c798
 
 ### Signing
 - **Keychain:** `~/Library/Keychains/build.keychain-db` (passwordless)
@@ -114,7 +114,7 @@ security list-keychains -d user -s ~/Library/Keychains/build.keychain-db /Librar
 - Crashlytics captures crashes and provides stack traces
 - dSYMs uploaded automatically with each TestFlight build
 
-View data in [Firebase Console](https://console.firebase.google.com/project/onyx-pad-487706-a5)
+View data in [Firebase Console](https://console.firebase.google.com/project/lobsterproject)
 
 ## Future Enhancements
 
