@@ -35,19 +35,62 @@ platform :ios do
     # Increment build number
     increment_build_number(xcodeproj: "LanguageTransfer.xcodeproj")
 
-    # Build the app
-    build_app(
-      project: "LanguageTransfer.xcodeproj",
-      scheme: "LanguageTransfer",
-      export_method: "app-store",
-      clean: true,
-      output_directory: "./build",
-      output_name: "LanguageTransfer.ipa"
-    )
+    build_number = get_build_number(xcodeproj: "LanguageTransfer.xcodeproj")
+    version_number = get_version_number(xcodeproj: "LanguageTransfer.xcodeproj", target: "LanguageTransfer")
 
-    # Upload to TestFlight (manual method to workaround fastlane JSON parsing bug)
-    # Note: sh {} runs from fastlane/ subdir, so IPA path must be absolute
+    archive_path = File.expand_path("../build/LanguageTransfer.xcarchive", __dir__)
+    ipa_dir = File.expand_path("../build", __dir__)
     ipa_path = File.expand_path("../build/LanguageTransfer.ipa", __dir__)
+    export_options_path = File.expand_path("../ExportOptions.plist", __dir__)
+
+    # Write export options plist
+    File.write(export_options_path, <<~PLIST)
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+        <key>method</key>
+        <string>app-store</string>
+        <key>teamID</key>
+        <string>B5X96QDRF4</string>
+        <key>uploadSymbols</key>
+        <true/>
+        <key>compileBitcode</key>
+        <false/>
+        <key>signingStyle</key>
+        <string>automatic</string>
+      </dict>
+      </plist>
+    PLIST
+
+    # Build archive directly (bypasses gym's showBuildSettings timeout issue)
+    sh %Q{
+      set -e
+      cd /Users/familybot/.openclaw/workspace/language-transfer-spanish
+      mkdir -p build
+      xcodebuild \
+        -project LanguageTransfer.xcodeproj \
+        -scheme LanguageTransfer \
+        -destination 'generic/platform=iOS' \
+        -archivePath '#{archive_path}' \
+        -allowProvisioningUpdates \
+        clean archive \
+        2>&1 | tail -20
+    }
+
+    # Export IPA from archive
+    sh %Q{
+      set -e
+      xcodebuild \
+        -exportArchive \
+        -archivePath '#{archive_path}' \
+        -exportOptionsPlist '#{export_options_path}' \
+        -exportPath '#{ipa_dir}' \
+        -allowProvisioningUpdates \
+        2>&1 | tail -10
+    }
+
+    # Upload to TestFlight
     sh %Q{
       KEY_CONTENT=$(cat ~/.openclaw/secrets/app-store-connect/AuthKey_7UKLD4C2CC.p8)
       cat > /tmp/asc_api_key.json << EOF
@@ -59,15 +102,11 @@ platform :ios do
   "in_house": false
 }
 EOF
-      
+
       fastlane pilot upload --ipa "#{ipa_path}" \
         --skip_waiting_for_build_processing \
         --api-key-path /tmp/asc_api_key.json
     }
-
-    # Get version info
-    build_number = get_build_number(xcodeproj: "LanguageTransfer.xcodeproj")
-    version_number = get_version_number(xcodeproj: "LanguageTransfer.xcodeproj", target: "LanguageTransfer")
 
     # Tag the build
     add_git_tag(tag: "v#{version_number}-build#{build_number}")
@@ -75,7 +114,7 @@ EOF
 
     # Commit version bump
     git_commit(
-      path: ["LanguageTransfer.xcodeproj/project.pbxproj"],
+      path: ["LanguageTransfer.xcodeproj/project.pbxproj", "LanguageTransfer/Info.plist"],
       message: "[ci skip] Bump build to #{build_number}"
     )
     push_to_git_remote
@@ -83,14 +122,53 @@ EOF
 
   desc "Build only (no upload)"
   lane :build_only do
-    build_app(
-      project: "LanguageTransfer.xcodeproj",
-      scheme: "LanguageTransfer",
-      export_method: "app-store",
-      clean: true,
-      output_directory: "./build",
-      output_name: "LanguageTransfer.ipa"
-    )
+    archive_path = File.expand_path("../build/LanguageTransfer.xcarchive", __dir__)
+    ipa_dir = File.expand_path("../build", __dir__)
+    export_options_path = File.expand_path("../ExportOptions.plist", __dir__)
+
+    File.write(export_options_path, <<~PLIST)
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+        <key>method</key>
+        <string>app-store</string>
+        <key>teamID</key>
+        <string>B5X96QDRF4</string>
+        <key>uploadSymbols</key>
+        <true/>
+        <key>compileBitcode</key>
+        <false/>
+        <key>signingStyle</key>
+        <string>automatic</string>
+      </dict>
+      </plist>
+    PLIST
+
+    sh %Q{
+      set -e
+      cd /Users/familybot/.openclaw/workspace/language-transfer-spanish
+      mkdir -p build
+      xcodebuild \
+        -project LanguageTransfer.xcodeproj \
+        -scheme LanguageTransfer \
+        -destination 'generic/platform=iOS' \
+        -archivePath '#{archive_path}' \
+        -allowProvisioningUpdates \
+        clean archive \
+        2>&1 | tail -20
+    }
+
+    sh %Q{
+      set -e
+      xcodebuild \
+        -exportArchive \
+        -archivePath '#{archive_path}' \
+        -exportOptionsPlist '#{export_options_path}' \
+        -exportPath '#{ipa_dir}' \
+        -allowProvisioningUpdates \
+        2>&1 | tail -10
+    }
   end
 
   desc "Upload dSYMs to Firebase Crashlytics"
