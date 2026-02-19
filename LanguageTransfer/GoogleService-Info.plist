@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyDoEUN1mkUDVG2_-W-M5Sp0wQQB7bwuQe8</string>
+	<string>AIzaSyA0uon0Tiuj1_9ZGGv3E1V-edpbdhnjAac</string>
 	<key>GCM_SENDER_ID</key>
-	<string>772897757520</string>
+	<string>327920931532</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.grafton.languagetransfer.spanish</string>
 	<key>PROJECT_ID</key>
-	<string>onyx-pad-487706-a5</string>
+	<string>lobsterproject</string>
 	<key>STORAGE_BUCKET</key>
-	<string>onyx-pad-487706-a5.firebasestorage.app</string>
+	<string>lobsterproject.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:772897757520:ios:b09e7a9539212f33267455</string>
+	<string>1:327920931532:ios:a684283b4b32ded4f32869</string>
 </dict>
 </plist>
