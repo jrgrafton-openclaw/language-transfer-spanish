@@ -10,7 +10,7 @@ platform :ios do
     app_store_connect_api_key(
       key_id: ENV['APP_STORE_CONNECT_KEY_ID'] || "7UKLD4C2CC",
       issuer_id: ENV['APP_STORE_CONNECT_ISSUER_ID'] || "69a6de70-79a7-47e3-e053-5b8c7c11a4d1",
-      key_filepath: ENV['APP_STORE_CONNECT_API_KEY_PATH'] || "$ASC_KEY_PATH",
+      key_filepath: ENV['APP_STORE_CONNECT_API_KEY_PATH'],
       in_house: false
     )
   end
@@ -92,11 +92,14 @@ platform :ios do
 
     # Upload to TestFlight
     sh %Q{
-      KEY_CONTENT=$(cat $ASC_KEY_PATH)
+      KEY_FILE="${APP_STORE_CONNECT_API_KEY_PATH:?APP_STORE_CONNECT_API_KEY_PATH is required}"
+      KEY_ID="${APP_STORE_CONNECT_KEY_ID:-7UKLD4C2CC}"
+      ISSUER_ID="${APP_STORE_CONNECT_ISSUER_ID:-69a6de70-79a7-47e3-e053-5b8c7c11a4d1}"
+      KEY_CONTENT=$(cat "$KEY_FILE")
       cat > /tmp/asc_api_key.json << EOF
 {
-  "key_id": "7UKLD4C2CC",
-  "issuer_id": "69a6de70-79a7-47e3-e053-5b8c7c11a4d1",
+  "key_id": "$KEY_ID",
+  "issuer_id": "$ISSUER_ID",
   "key": $(echo "$KEY_CONTENT" | jq -Rs .),
   "duration": 1200,
   "in_house": false

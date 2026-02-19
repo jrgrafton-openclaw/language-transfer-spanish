@@ -8,7 +8,8 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { createPrivateKey, createSign } from 'crypto';
 
-const keyFile = '$FIREBASE_KEY_FILE';
+const keyFile = process.env.FIREBASE_KEY_FILE;
+if (!keyFile) throw new Error('FIREBASE_KEY_FILE env var is required (path to Firebase service account JSON)');
 const keyData = JSON.parse(readFileSync(keyFile, 'utf8'));
 
 const PROJECT_ID = 'lobsterproject';

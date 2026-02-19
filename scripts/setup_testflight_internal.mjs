@@ -9,7 +9,8 @@
 import { readFileSync } from 'fs';
 import { createPrivateKey, createSign } from 'crypto';
 
-const ASC_KEY_PATH = process.env.ASC_KEY_PATH || '$ASC_KEY_PATH';
+const ASC_KEY_PATH = process.env.ASC_KEY_PATH;
+if (!ASC_KEY_PATH) throw new Error('ASC_KEY_PATH env var is required (path to App Store Connect .p8 key)');
 const ASC_KEY_ID = process.env.ASC_KEY_ID || '7UKLD4C2CC';
 const ASC_ISSUER_ID = process.env.ASC_ISSUER_ID || '69a6de70-79a7-47e3-e053-5b8c7c11a4d1';
 const BUNDLE_ID = 'com.grafton.languagetransfer.spanish';
