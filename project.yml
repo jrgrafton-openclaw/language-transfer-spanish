@@ -16,8 +16,9 @@ settings:
     DEVELOPMENT_TEAM: B5X96QDRF4
     CODE_SIGN_STYLE: Automatic
     SWIFT_VERSION: "6.0"
-    MARKETING_VERSION: "1.0.0"
-    CURRENT_PROJECT_VERSION: "1"
+    VERSIONING_SYSTEM: apple-generic
+    CURRENT_PROJECT_VERSION: "9"
+    MARKETING_VERSION: "1.0"
 
 targets:
   LanguageTransfer:
@@ -27,10 +28,8 @@ targets:
       - path: LanguageTransfer
         excludes:
           - "GoogleService-Info.plist"
-    resources:
       - path: LanguageTransfer/GoogleService-Info.plist
-    info:
-      path: LanguageTransfer/Info.plist
+        buildPhase: resources
     dependencies:
       - package: Firebase
         products:
