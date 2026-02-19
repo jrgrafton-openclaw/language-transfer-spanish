@@ -12,6 +12,7 @@
 		2D14D6F58AD35125CBDA1B4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BB6C7DCD574F38E407C1883 /* Assets.xcassets */; };
 		8003D3084DCC6D1B89CC535D /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7B7A5A032A928DFFF897E8FE /* FirebaseCrashlytics */; };
 		D5867675D11017EF7FFE9977 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A8B8CD9F80D06C8406C626 /* ContentView.swift */; };
+		1F6B9DB9F72F4FE4A5710779 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC8A822E21834B23AFB1905F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		3BB6C7DCD574F38E407C1883 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5F83F536421639D3B9FB45AB /* LanguageTransferApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageTransferApp.swift; sourceTree = "<group>"; };
 		6AD515432169BA882F0AE5FE /* LanguageTransfer.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = LanguageTransfer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC8A822E21834B23AFB1905F /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +52,8 @@
 				21A8B8CD9F80D06C8406C626 /* ContentView.swift */,
 				1CA10701F9EC437597D92C3B /* Info.plist */,
 				5F83F536421639D3B9FB45AB /* LanguageTransferApp.swift */,
-			);
+							CC8A822E21834B23AFB1905F /* LaunchScreen.storyboard */,
+);
 			path = LanguageTransfer;
 			sourceTree = "<group>";
 		};
@@ -129,7 +132,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D14D6F58AD35125CBDA1B4E /* Assets.xcassets in Resources */,
-			);
+							1F6B9DB9F72F4FE4A5710779 /* LaunchScreen.storyboard in Resources */,
+);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
@@ -182,7 +186,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = B5X96QDRF4;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -261,7 +265,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = B5X96QDRF4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
