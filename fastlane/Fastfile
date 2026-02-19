@@ -30,6 +30,12 @@ platform :ios do
 
   desc "Build and upload to TestFlight"
   lane :beta do
+    # Unlock build.keychain-db (no password) so codesign can access private keys headlessly.
+    # Needed on every run — macOS resets ACLs after restart/sleep/keychain-list changes.
+    sh "security unlock-keychain -p '' ~/Library/Keychains/build.keychain-db 2>/dev/null || true"
+    sh "security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k '' ~/Library/Keychains/build.keychain-db 2>/dev/null || true"
+    sh "security list-keychains -d user -s ~/Library/Keychains/build.keychain-db ~/Library/Keychains/login.keychain-db /Library/Keychains/System.keychain"
+
     api_key
 
     # Increment build number
