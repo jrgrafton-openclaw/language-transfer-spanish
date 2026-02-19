@@ -46,6 +46,8 @@ platform :ios do
     )
 
     # Upload to TestFlight (manual method to workaround fastlane JSON parsing bug)
+    # Note: sh {} runs from fastlane/ subdir, so IPA path must be absolute
+    ipa_path = File.expand_path("../build/LanguageTransfer.ipa", __dir__)
     sh %Q{
       KEY_CONTENT=$(cat ~/.openclaw/secrets/app-store-connect/AuthKey_7UKLD4C2CC.p8)
       cat > /tmp/asc_api_key.json << EOF
@@ -58,7 +60,7 @@ platform :ios do
 }
 EOF
       
-      fastlane pilot upload --ipa ./build/LanguageTransfer.ipa \
+      fastlane pilot upload --ipa "#{ipa_path}" \
         --skip_waiting_for_build_processing \
         --api-key-path /tmp/asc_api_key.json
     }
